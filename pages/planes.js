@@ -11,7 +11,7 @@ export default function Planes() {
         {/* Plan Gratis */}
         <div className="bg-zinc-900 p-8 rounded-2xl shadow-lg transform transition duration-300 hover:scale-105">
           <h2 className="text-2xl font-semibold mb-4">Empezar Gratis</h2>
-          <p className="text-3xl font-bold text-purple-500 mb-6">0 €/mes</p>
+          <p className="text-xl font-bold text-purple-500 mb-6">0 €/mes</p>
           <ul className="space-y-3 mb-6">
             <li className="flex items-center gap-2">
               <CheckCircle className="text-green-400" /> Acceso básico a historias con IA
@@ -26,31 +26,31 @@ export default function Planes() {
               <XCircle className="text-gray-500" /> Prioridad en soporte
             </li>
           </ul>
-          <button className="w-full py-3 bg-purple-600 rounded-lg font-semibold hover:bg-purple-700 transition">
-            Elegir Gratis
+          <button className="w-full py-3 bg-purple-600 rounded-lg hover:bg-purple-700">
+            Elegir Plan Gratis
           </button>
         </div>
 
         {/* Plan Premium */}
         <div className="bg-zinc-900 p-8 rounded-2xl shadow-lg transform transition duration-300 hover:scale-105">
           <h2 className="text-2xl font-semibold mb-4">Plan Premium</h2>
-          <p className="text-3xl font-bold text-purple-500 mb-6">9,99 €/mes</p>
+          <p className="text-xl font-bold text-purple-500 mb-6">19,99 €/mes</p>
           <ul className="space-y-3 mb-6">
             <li className="flex items-center gap-2">
-              <CheckCircle className="text-green-400" /> Acceso completo a todas las historias con IA
+              <CheckCircle className="text-green-400" /> Acceso completo a historias con IA
             </li>
             <li className="flex items-center gap-2">
-              <CheckCircle className="text-green-400" /> Generar vídeos de hasta 15 minutos
+              <CheckCircle className="text-green-400" /> Generar vídeos de hasta 15 min
             </li>
             <li className="flex items-center gap-2">
               <CheckCircle className="text-green-400" /> Escenas personalizadas ilimitadas
             </li>
             <li className="flex items-center gap-2">
-              <CheckCircle className="text-green-400" /> Prioridad en soporte 24/7
+              <CheckCircle className="text-green-400" /> Prioridad en soporte
             </li>
           </ul>
-          <button className="w-full py-3 bg-purple-600 rounded-lg font-semibold hover:bg-purple-700 transition">
-            Elegir Premium
+          <button className="w-full py-3 bg-purple-600 rounded-lg hover:bg-purple-700">
+            Elegir Plan Premium
           </button>
         </div>
       </div>
