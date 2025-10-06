@@ -42,18 +42,3 @@ export default function Planes() {
             <li className="flex items-center gap-2">
               <CheckCircle className="text-green-400" /> Generar vídeos de hasta 15 min
             </li>
-            <li className="flex items-center gap-2">
-              <CheckCircle className="text-green-400" /> Escenas personalizadas ilimitadas
-            </li>
-            <li className="flex items-center gap-2">
-              <CheckCircle className="text-green-400" /> Prioridad en soporte
-            </li>
-          </ul>
-          <button className="w-full py-3 bg-purple-600 rounded-lg hover:bg-purple-700">
-            Elegir Plan Premium
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
