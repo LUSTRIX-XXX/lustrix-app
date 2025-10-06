@@ -9,7 +9,7 @@ export default function Planes() {
 
       <div className="grid md:grid-cols-2 gap-8 w-full max-w-5xl">
         {/* Plan Gratis */}
-        <div className="bg-zinc-900 p-8 rounded-2xl shadow-lg transform transition duration-300 hover:scale-105">
+        <div className="bg-zinc-900 p-8 rounded-2xl shadow-lg hover:scale-105 transition duration-300">
           <h2 className="text-2xl font-semibold mb-4">Empezar Gratis</h2>
           <p className="text-xl font-bold text-purple-500 mb-6">0 €/mes</p>
           <ul className="space-y-3 mb-6">
@@ -32,7 +32,7 @@ export default function Planes() {
         </div>
 
         {/* Plan Premium */}
-        <div className="bg-zinc-900 p-8 rounded-2xl shadow-lg transform transition duration-300 hover:scale-105">
+        <div className="bg-zinc-900 p-8 rounded-2xl shadow-lg hover:scale-105 transition duration-300">
           <h2 className="text-2xl font-semibold mb-4">Plan Premium</h2>
           <p className="text-xl font-bold text-purple-500 mb-6">19,99 €/mes</p>
           <ul className="space-y-3 mb-6">
@@ -42,3 +42,18 @@ export default function Planes() {
             <li className="flex items-center gap-2">
               <CheckCircle className="text-green-400" /> Generar vídeos de hasta 15 min
             </li>
+            <li className="flex items-center gap-2">
+              <CheckCircle className="text-green-400" /> Escenas personalizadas ilimitadas
+            </li>
+            <li className="flex items-center gap-2">
+              <CheckCircle className="text-green-400" /> Prioridad en soporte
+            </li>
+          </ul>
+          <button className="w-full py-3 bg-purple-600 rounded-lg hover:bg-purple-700">
+            Elegir Plan Premium
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
