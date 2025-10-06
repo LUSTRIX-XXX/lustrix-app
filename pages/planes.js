@@ -8,6 +8,7 @@ export default function Planes() {
       </h1>
 
       <div className="grid md:grid-cols-2 gap-8 w-full max-w-5xl">
+        
         {/* Plan Gratis */}
         <div className="bg-zinc-900 p-8 rounded-2xl shadow-lg hover:scale-105 transition duration-300">
           <h2 className="text-2xl font-semibold mb-4">Empezar Gratis</h2>
