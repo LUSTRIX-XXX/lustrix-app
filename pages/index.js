@@ -13,6 +13,10 @@ export default function Home() {
           <Link href="/planes">Planes</Link>
           <Link href="/comunidad">Comunidad</Link>
           <Link href="/contacto">Contacto</Link>
+    <a href="/sobre-nosotros" className="hover:text-purple-400 transition">
+  Sobre Nosotros
+</a>
+
         </nav>
       </header>
 
