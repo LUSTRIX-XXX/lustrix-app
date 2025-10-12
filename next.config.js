@@ -2,7 +2,21 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ["images.unsplash.com"], // permite cargar imágenes desde Unsplash
+    domains: [
+      "images.unsplash.com",
+      "cdn.pixabay.com",
+      "lustrix.tech",
+      "app.lustrix.tech"
+    ],
+  },
+  async redirects() {
+    return [
+      {
+        source: "/perfil",
+        destination: "/pages/perfil",
+        permanent: false,
+      },
+    ];
   },
 };
 
