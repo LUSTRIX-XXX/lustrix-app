@@ -6,8 +6,7 @@ export default function CrearHistoria() {
   const [yaGenerada, setYaGenerada] = useState(false);
   const [plan, setPlan] = useState("gratis");
   const router = useRouter();
-
-  // Al cargar la página, comprobamos el plan y si ya generó una historia
+  
   useEffect(() => {
     const generada = localStorage.getItem("historiaGenerada");
     const planActivo = localStorage.getItem("planActivo") || "gratis";
@@ -16,7 +15,6 @@ export default function CrearHistoria() {
     if (generada) setYaGenerada(true);
   }, []);
 
-  // Guardar historia como .txt descargable
   const guardarBorrador = () => {
     if (!historia.trim()) {
       alert("✍️ Escribe una historia antes de guardarla.");
@@ -30,20 +28,17 @@ export default function CrearHistoria() {
     enlace.click();
   };
 
-  // Generar video (demo)
   const generarVideo = () => {
     if (!historia.trim()) {
       alert("Por favor escribe tu historia antes de generar el video 💡");
       return;
     }
 
-    // Guardamos en localStorage para recordar que ya generó una historia
     localStorage.setItem("historiaGenerada", "true");
 
     const duracion = plan === "premium" ? "15 minutos" : "60 segundos";
     alert(`🎬 Tu historia se está procesando. Duración máxima: ${duracion}`);
 
-    // Si es plan gratuito, le invitamos a mejorar
     if (plan === "gratis") {
       setTimeout(() => {
         router.push("/planes");
@@ -51,7 +46,6 @@ export default function CrearHistoria() {
     }
   };
 
-  // Si ya generó una historia, mostramos mensaje para subir de plan
   if (yaGenerada && plan === "gratis") {
     return (
       <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center text-center">
