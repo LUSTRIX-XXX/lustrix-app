@@ -1,5 +1,4 @@
 import Stripe from "stripe";
-
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export default async function handler(req, res) {
@@ -13,17 +12,16 @@ export default async function handler(req, res) {
       mode: "subscription",
       line_items: [
         {
-          price: "price_1SHqoAIqO3JexbpfcfDjf13m", // tu ID de Stripe
+          price: "price_1SHqoAIqO3JexbpfcfDjf13m",
           quantity: 1,
         },
       ],
-      success_url: "https://app.lustrix.tech/crear",
+      success_url: "https://app.lustrix.tech/planes?session_id={CHECKOUT_SESSION_ID}",
       cancel_url: "https://app.lustrix.tech/planes",
     });
 
     res.status(200).json({ url: session.url });
   } catch (error) {
-    console.error("❌ Error en Stripe:", error);
     res.status(500).json({ error: error.message });
   }
 }
