@@ -1,6 +1,23 @@
 import { CheckCircle, XCircle } from "lucide-react";
 
 export default function Planes() {
+  const handlePagoPremium = async () => {
+    const res = await fetch("/api/checkout", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        priceId: "price_1SHqoAIqO3JexbpfcfDjf13m", // ⚡ Tu Price ID de Stripe
+      }),
+    });
+
+    const data = await res.json();
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      alert("Error al iniciar el pago.");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-black text-white px-6 py-16 flex flex-col items-center">
       <h1 className="text-4xl font-bold mb-12 text-center">
@@ -8,7 +25,6 @@ export default function Planes() {
       </h1>
 
       <div className="grid md:grid-cols-2 gap-8 w-full max-w-5xl">
-        
         {/* Plan Gratis */}
         <div className="bg-zinc-900 p-8 rounded-2xl shadow-lg hover:scale-105 transition duration-300">
           <h2 className="text-2xl font-semibold mb-4">Empezar Gratis</h2>
@@ -27,7 +43,13 @@ export default function Planes() {
               <XCircle className="text-gray-500" /> Prioridad en soporte
             </li>
           </ul>
-          <button className="w-full py-3 bg-purple-600 rounded-lg hover:bg-purple-700">
+          <button
+            onClick={() => {
+              localStorage.setItem("planActivo", "gratis");
+              window.location.href = "/crear";
+            }}
+            className="w-full py-3 bg-purple-600 rounded-lg hover:bg-purple-700"
+          >
             Elegir Plan Gratis
           </button>
         </div>
@@ -50,7 +72,10 @@ export default function Planes() {
               <CheckCircle className="text-green-400" /> Prioridad en soporte
             </li>
           </ul>
-          <button className="w-full py-3 bg-purple-600 rounded-lg hover:bg-purple-700">
+          <button
+            onClick={handlePagoPremium}
+            className="w-full py-3 bg-purple-600 rounded-lg hover:bg-purple-700"
+          >
             Elegir Plan Premium
           </button>
         </div>
