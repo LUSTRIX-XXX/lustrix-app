@@ -8,19 +8,22 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { priceId } = req.body;
-
     const session = await stripe.checkout.sessions.create({
-      mode: "subscription",
       payment_method_types: ["card"],
-      line_items: [{ price: priceId, quantity: 1 }],
-      success_url: "https://app.lustrix.tech/crear?success=true",
-      cancel_url: "https://app.lustrix.tech/planes?cancel=true",
+      mode: "subscription",
+      line_items: [
+        {
+          price: "price_1SHqoAIqO3JexbpfcfDjf13m", // tu ID de Stripe
+          quantity: 1,
+        },
+      ],
+      success_url: "https://app.lustrix.tech/crear",
+      cancel_url: "https://app.lustrix.tech/planes",
     });
 
-    return res.status(200).json({ url: session.url });
+    res.status(200).json({ url: session.url });
   } catch (error) {
-    console.error("Error en Stripe Checkout:", error);
-    res.status(500).json({ error: "Error al crear sesión de pago" });
+    console.error("❌ Error en Stripe:", error);
+    res.status(500).json({ error: error.message });
   }
 }
