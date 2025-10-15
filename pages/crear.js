@@ -14,12 +14,18 @@ export default function CrearHistoria() {
 
       if (generada) setYaGenerada(true);
       setPlan(planActivo);
+
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get("success")) {
+        localStorage.setItem("planActivo", "premium");
+        setPlan("premium");
+      }
     }
   }, []);
 
   const guardarBorrador = () => {
     if (!historia.trim()) {
-      alert("✍️ Escribe una historia antes de guardarla.");
+      alert("Escribe una historia antes de guardarla.");
       return;
     }
 
@@ -32,7 +38,7 @@ export default function CrearHistoria() {
 
   const generarVideo = () => {
     if (!historia.trim()) {
-      alert("💡 Por favor escribe tu historia antes de generar el video.");
+      alert("Por favor escribe tu historia antes de generar el video.");
       return;
     }
 
@@ -41,9 +47,8 @@ export default function CrearHistoria() {
     }
 
     const duracion = plan === "premium" ? "15 minutos" : "60 segundos";
-    alert(`🎬 Tu historia se está procesando (duración máxima: ${duracion}).`);
+    alert(`Tu historia se está procesando (duración máxima: ${duracion}).`);
 
-   
     if (plan === "gratis") {
       setTimeout(() => {
         router.push("/planes");
@@ -51,12 +56,11 @@ export default function CrearHistoria() {
     }
   };
 
- 
   if (yaGenerada && plan === "gratis") {
     return (
       <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center text-center p-8">
         <h1 className="text-3xl font-bold text-purple-500 mb-6">
-          Ya has creado tu historia ✨
+          Ya has creado tu historia
         </h1>
         <p className="mb-8 text-gray-300">
           Para crear más historias y acceder a más minutos, elige un plan premium.
@@ -71,11 +75,10 @@ export default function CrearHistoria() {
     );
   }
 
- 
   return (
     <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center p-8">
       <h1 className="text-3xl font-bold mb-6 text-center">
-        Crear tu historia {plan === "premium" ? "✨ (Plan Premium)" : ""}
+        Crear tu historia {plan === "premium" ? "(Plan Premium)" : ""}
       </h1>
 
       <textarea
