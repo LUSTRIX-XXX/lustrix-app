@@ -18,6 +18,7 @@ export default function Planes() {
       </h1>
 
       <div className="grid md:grid-cols-2 gap-8 w-full max-w-5xl">
+        {/* PLAN GRATIS */}
         <div className="bg-zinc-900 p-8 rounded-2xl shadow-lg hover:scale-105 transition duration-300">
           <h2 className="text-2xl font-semibold mb-4">Empezar Gratis</h2>
           <p className="text-xl font-bold text-purple-500 mb-6">0 €/mes</p>
@@ -38,7 +39,7 @@ export default function Planes() {
           <button
             onClick={() => {
               localStorage.setItem("planActivo", "gratis");
-              window.location.href = "/crear";
+              window.location.href = "/crear-gratis";
             }}
             className="w-full bg-purple-600 text-white py-3 rounded-lg hover:bg-purple-700 transition"
           >
@@ -46,6 +47,7 @@ export default function Planes() {
           </button>
         </div>
 
+        {/* PLAN PREMIUM */}
         <div className="bg-zinc-900 p-8 rounded-2xl shadow-lg hover:scale-105 transition duration-300">
           <h2 className="text-2xl font-semibold mb-4">Plan Premium</h2>
           <p className="text-xl font-bold text-purple-500 mb-6">19,99 €/mes</p>
