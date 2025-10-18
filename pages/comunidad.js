@@ -13,7 +13,7 @@ export default function Comunidad() {
 
   async function obtenerHistorias() {
     const { data, error } = await supabase.from("historias").select("*").order("id", { ascending: false });
-    if (!error) setHistorias(data);
+    if (!error) setHistorias(data || []);
   }
 
   async function publicarHistoria(e) {
@@ -22,6 +22,7 @@ export default function Comunidad() {
       alert("Por favor, rellena todos los campos antes de publicar.");
       return;
     }
+
     const { error } = await supabase.from("historias").insert([{ titulo, contenido, autor }]);
     if (error) {
       alert("Error al publicar la historia.");
