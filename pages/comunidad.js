@@ -5,79 +5,109 @@ export default function Comunidad() {
   const [historias, setHistorias] = useState([]);
   const [titulo, setTitulo] = useState("");
   const [contenido, setContenido] = useState("");
-  const [autor, setAutor] = useState("");
+  const [tipo, setTipo] = useState("ia");
+  const [usuarioId, setUsuarioId] = useState("demo-user");
 
   useEffect(() => {
-    obtenerHistorias();
+    cargarHistorias();
   }, []);
 
-  async function obtenerHistorias() {
-    const { data, error } = await supabase.from("historias").select("*").order("id", { ascending: false });
-    if (!error) setHistorias(data || []);
+  async function cargarHistorias() {
+    const res = await fetch("/api/historias");
+    const data = await res.json();
+    setHistorias(data.data || []);
   }
 
-  async function publicarHistoria(e) {
-    e.preventDefault();
-    if (!titulo || !contenido || !autor) {
-      alert("Por favor, rellena todos los campos antes de publicar.");
+  async function publicarHistoria() {
+    if (!titulo || !contenido) {
+      alert("Completa todos los campos");
       return;
     }
 
-    const { error } = await supabase.from("historias").insert([{ titulo, contenido, autor }]);
-    if (error) {
-      alert("Error al publicar la historia.");
-    } else {
+    const res = await fetch("/api/historias", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ usuario_id: usuarioId, titulo, contenido, tipo }),
+    });
+
+    if (res.ok) {
       setTitulo("");
       setContenido("");
-      setAutor("");
-      obtenerHistorias();
-      alert("Historia publicada correctamente.");
+      cargarHistorias();
+    } else {
+      alert("Error al publicar");
     }
   }
 
-  return (
-    <div className="min-h-screen bg-black text-white px-6 py-16 flex flex-col items-center">
-      <h1 className="text-4xl font-bold mb-8 text-center text-purple-500">Comunidad LUSTRIX</h1>
+  async function darLike(id) {
+    await fetch("/api/historias", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id }),
+    });
+    cargarHistorias();
+  }
 
-      <form onSubmit={publicarHistoria} className="w-full max-w-2xl bg-zinc-900 p-6 rounded-xl shadow-lg mb-12">
-        <h2 className="text-2xl mb-4">Publicar una nueva historia</h2>
+  return (
+    <div className="min-h-screen bg-black text-white px-8 py-10">
+      <h1 className="text-4xl font-bold text-purple-500 mb-8 text-center">
+        Comunidad LUSTRIX
+      </h1>
+
+      <div className="max-w-3xl mx-auto mb-10 bg-zinc-900 p-6 rounded-lg">
+        <h2 className="text-2xl mb-4">Publicar una historia</h2>
+
         <input
           type="text"
-          placeholder="Tu nombre o alias"
-          value={autor}
-          onChange={(e) => setAutor(e.target.value)}
-          className="w-full p-2 mb-4 rounded bg-zinc-800 text-white"
-        />
-        <input
-          type="text"
-          placeholder="Título de la historia"
+          placeholder="Título"
           value={titulo}
           onChange={(e) => setTitulo(e.target.value)}
-          className="w-full p-2 mb-4 rounded bg-zinc-800 text-white"
+          className="w-full mb-3 p-2 rounded bg-zinc-800"
         />
         <textarea
-          placeholder="Escribe tu historia aquí..."
+          placeholder="Escribe o genera tu historia..."
           value={contenido}
           onChange={(e) => setContenido(e.target.value)}
-          className="w-full p-3 h-40 rounded bg-zinc-800 text-white resize-none mb-4"
+          className="w-full h-40 p-2 rounded bg-zinc-800 mb-3"
         />
-        <button type="submit" className="w-full py-3 bg-purple-600 rounded-lg hover:bg-purple-700">
+        <select
+          value={tipo}
+          onChange={(e) => setTipo(e.target.value)}
+          className="w-full mb-3 p-2 rounded bg-zinc-800"
+        >
+          <option value="ia">Generada por IA</option>
+          <option value="propia">Historia propia</option>
+        </select>
+
+        <button
+          onClick={publicarHistoria}
+          className="w-full py-3 bg-purple-600 rounded-lg hover:bg-purple-700"
+        >
           Publicar historia
         </button>
-      </form>
+      </div>
 
-      <div className="w-full max-w-3xl space-y-6">
-        {historias.length === 0 ? (
-          <p className="text-gray-400 text-center">Aún no hay historias publicadas.</p>
-        ) : (
-          historias.map((h) => (
-            <div key={h.id} className="bg-zinc-900 p-6 rounded-xl shadow-md">
-              <h3 className="text-2xl font-semibold mb-2">{h.titulo}</h3>
-              <p className="text-gray-400 text-sm mb-4">por {h.autor}</p>
-              <p className="text-gray-200">{h.contenido}</p>
+      <div className="grid gap-6 max-w-4xl mx-auto">
+        {historias.map((h) => (
+          <div
+            key={h.id}
+            className="bg-zinc-900 p-6 rounded-lg border border-zinc-700"
+          >
+            <h3 className="text-xl font-semibold text-purple-400">{h.titulo}</h3>
+            <p className="text-gray-300 mt-2">{h.contenido}</p>
+            <div className="flex justify-between items-center mt-4">
+              <span className="text-sm text-gray-500">
+                {h.tipo === "ia" ? "✨ Historia generada por IA" : "🖋️ Propia"}
+              </span>
+              <button
+                onClick={() => darLike(h.id)}
+                className="text-purple-500 hover:text-purple-300"
+              >
+                ❤️ {h.likes}
+              </button>
             </div>
-          ))
-        )}
+          </div>
+        ))}
       </div>
     </div>
   );
