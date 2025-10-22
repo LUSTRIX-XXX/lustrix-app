@@ -1,39 +1,29 @@
-import sgMail from '@sendgrid/mail';
+import sendgrid from "@sendgrid/mail";
 
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+sendgrid.setApiKey(process.env.SENDGRID_API_KEY);
 
 export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    res.setHeader('Allow', ['POST']);
-    return res.status(405).json({ error: 'Method not allowed' });
+  if (req.method !== "POST") {
+    return res.status(405).json({ message: "Método no permitido" });
   }
 
-  const { nombre, email, mensaje } = req.body || {};
+  const { email } = req.body;
 
   if (!email) {
-    return res.status(400).json({ error: 'Email requerido' });
+    return res.status(400).json({ message: "Email requerido" });
   }
 
   try {
-    // Enviar mail al usuario
-    await sgMail.send({
-      to: email,
-      from: process.env.FROM_EMAIL || 'info@lustrix.tech',
-      subject: 'Bienvenido a LUSTRIX',
-      html: `<h1>¡Bienvenido ${nombre || ''}!</h1><p>Accede a la app: <a href="${process.env.NEXT_PUBLIC_APP_URL || 'https://app.lustrix.tech'}">Entrar a la app</a></p>`
+    await sendgrid.send({
+      to: process.env.SENDGRID_FROM,
+      from: process.env.SENDGRID_FROM,
+      subject: "Nuevo suscriptor en LUSTRIX 💜",
+      text: `Se ha registrado un nuevo usuario con email: ${email}`,
     });
 
-    // Notificación interna
-    await sgMail.send({
-      to: process.env.FROM_EMAIL || 'info@lustrix.tech',
-      from: process.env.FROM_EMAIL || 'info@lustrix.tech',
-      subject: 'Nuevo registro en landing',
-      html: `<p>Nombre: ${nombre}</p><p>Email: ${email}</p><p>Mensaje: ${mensaje}</p>`
-    });
-
-    return res.status(200).json({ ok: true });
+    res.status(200).json({ message: "Correo enviado correctamente" });
   } catch (error) {
-    console.error('SendGrid error', error);
-    return res.status(500).json({ error: 'Error enviando emails' });
+    console.error(error);
+    res.status(500).json({ message: "Error al enviar correo", error });
   }
 }
